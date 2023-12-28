@@ -113,7 +113,7 @@ public class UrunIslem extends JFrame {
         table = new JTable(model);
         JScrollPane scrollPane = new JScrollPane(table);
 
-        add(scrollPane);
+        getContentPane().add(scrollPane);
 
         JButton refreshButton = new JButton("Yenile");
         refreshButton.addActionListener(e -> refreshTable());
@@ -121,14 +121,28 @@ public class UrunIslem extends JFrame {
         JPanel buttonPanel = new JPanel();
         buttonPanel.add(refreshButton);
 
-        add(buttonPanel, BorderLayout.SOUTH);
+        getContentPane().add(buttonPanel, BorderLayout.SOUTH);
+        refreshTable();
 
+        JButton backButton = new JButton("Geri");
+        backButton.addActionListener(e -> yetkiliGiris());
+
+        JPanel buttonPanel1 = new JPanel(new FlowLayout());
+        buttonPanel1.add(backButton);
+
+        getContentPane().add(buttonPanel1, BorderLayout.NORTH);
         refreshTable();
 
         setVisible(true);
     }
 
-    private void refreshTable() {
+    private void yetkiliGiris() {
+    	YetkiliGiris yetkiliGiris = new YetkiliGiris();
+	    yetkiliGiris.setVisible(true);
+	    dispose();
+	}
+
+	private void refreshTable() {
         model.setRowCount(0);
 
         try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3307/otomasyon","root","root")) {

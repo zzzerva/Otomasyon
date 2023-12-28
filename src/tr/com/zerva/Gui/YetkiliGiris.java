@@ -58,6 +58,13 @@ public class YetkiliGiris extends JFrame {
 		btnNewButton.setFont(new Font("Yu Gothic", Font.BOLD, 12));
 		btnNewButton.setBounds(10, 10, 196, 113);
 		contentPane.add(btnNewButton);
+		btnNewButton.addActionListener(new ActionListener() {
+	        public void actionPerformed(ActionEvent e) {
+	            YetkiIslemi yetki = new YetkiIslemi();
+	            yetki.setVisible(true);
+	            dispose();
+	        }
+	    });
 		
 		JButton btnrnIlemleri = new JButton("ÜRÜN İŞLEMLERİ");
 		Image img1 = new ImageIcon(YetkiliGiris.class.getResource("/ürün.png")).getImage();
@@ -66,6 +73,14 @@ public class YetkiliGiris extends JFrame {
 		btnrnIlemleri.setFont(new Font("Yu Gothic", Font.BOLD, 12));
 		btnrnIlemleri.setBounds(216, 10, 196, 113);
 		contentPane.add(btnrnIlemleri);
+		
+		btnrnIlemleri.addActionListener(new ActionListener() {
+	        public void actionPerformed(ActionEvent e) {
+	            YetkiIslemi yetki = new YetkiIslemi();
+	            yetki.setVisible(true);
+	            dispose();
+	        }
+	    });
 		
 		JButton btnYetkiliIlemleri = new JButton("YETKİ İŞLEMLERİ");
 		Image img2 = new ImageIcon(YetkiliGiris.class.getResource("/yetkili.png")).getImage();
@@ -90,5 +105,13 @@ public class YetkiliGiris extends JFrame {
 		btnk.setFont(new Font("Yu Gothic", Font.BOLD, 12));
 		btnk.setBounds(216, 140, 196, 113);
 		contentPane.add(btnk);
+		
+		btnk.addActionListener(new ActionListener() {
+	        public void actionPerformed(ActionEvent e) {
+	            AnaFE cik = new AnaFE();
+	            cik.setVisible(true);
+	            dispose();
+	        }
+	    });
 	}
 }
