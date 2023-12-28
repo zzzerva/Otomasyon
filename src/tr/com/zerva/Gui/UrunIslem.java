@@ -2,26 +2,27 @@ package tr.com.zerva.Gui;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Vector;
 
 public class UrunIslem extends JFrame {
 
     private DefaultListModel<String> urunListModel;
     private JList<String> urunList;
+    private DefaultTableModel model;
+    private JTable table;
 
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                new UrunIslem().setVisible(true);
-            }
-        });
+        SwingUtilities.invokeLater(() -> new UrunIslem().UrunListelemeFrame());
     }
 
     public UrunIslem() {
@@ -43,10 +44,20 @@ public class UrunIslem extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String urunAdi = JOptionPane.showInputDialog(UrunIslem.this, "Ürün Adı:");
-                if (urunAdi != null && !urunAdi.trim().isEmpty()) {
-                    urunListModel.addElement(urunAdi);
-                    // Burada MySQL tablosuna da ekleyebilirsiniz.
-                    urunEkle(urunAdi);
+                String kategoriAdi = JOptionPane.showInputDialog(UrunIslem.this, "Kategori Adı:");
+                String fiyatStr = JOptionPane.showInputDialog(UrunIslem.this, "Fiyat:");
+
+                if (urunAdi != null && !urunAdi.trim().isEmpty() &&
+                        kategoriAdi != null && !kategoriAdi.trim().isEmpty() &&
+                        fiyatStr != null && !fiyatStr.trim().isEmpty()) {
+                    try {
+                        float fiyat = Float.parseFloat(fiyatStr);
+
+                        urunListModel.addElement("Ürün Adı: " + urunAdi + ", Kategori Adı: " + kategoriAdi + ", Fiyat: " + fiyat);
+                        urunEkle(urunAdi, kategoriAdi, fiyat);
+                    } catch (NumberFormatException ex) {
+                        JOptionPane.showMessageDialog(UrunIslem.this, "Geçerli bir fiyat giriniz.", "Hata", JOptionPane.ERROR_MESSAGE);
+                    }
                 }
             }
         });
@@ -59,7 +70,6 @@ public class UrunIslem extends JFrame {
                 if (selectedIndex != -1) {
                     String secilenUrun = urunListModel.getElementAt(selectedIndex);
                     urunListModel.remove(selectedIndex);
-                    // Burada MySQL tablosundan da silebilirsiniz.
                     urunSil(secilenUrun);
                 } else {
                     JOptionPane.showMessageDialog(UrunIslem.this, "Lütfen bir ürün seçin.");
@@ -77,7 +87,6 @@ public class UrunIslem extends JFrame {
                     String yeniAd = JOptionPane.showInputDialog(UrunIslem.this, "Yeni Ürün Adı:", secilenUrun);
                     if (yeniAd != null && !yeniAd.trim().isEmpty()) {
                         urunListModel.setElementAt(yeniAd, selectedIndex);
-                        // Burada MySQL tablosundaki kaydı da güncelleyebilirsiniz.
                         urunGuncelle(secilenUrun, yeniAd);
                     }
                 } else {
@@ -91,41 +100,111 @@ public class UrunIslem extends JFrame {
         buttonPanel.add(duzenleButton);
 
         getContentPane().add(buttonPanel, BorderLayout.EAST);
-
-        // MySQL bağlantısı ve tablo verilerini al
         baglanVeTabloyuDoldur();
     }
 
-    private void urunEkle(String urunAdi) {
-        // MySQL tablosuna ekleme işlemleri burada gerçekleştirilecek.
-        // Örneğin: INSERT INTO urunler (urun_adi) VALUES ('urunAdi');
+    public void UrunListelemeFrame() {
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setTitle("Ürün Listesi");
+        setSize(600, 400);
+        setLocationRelativeTo(null);
+
+        model = new DefaultTableModel();
+        table = new JTable(model);
+        JScrollPane scrollPane = new JScrollPane(table);
+
+        add(scrollPane);
+
+        JButton refreshButton = new JButton("Yenile");
+        refreshButton.addActionListener(e -> refreshTable());
+
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.add(refreshButton);
+
+        add(buttonPanel, BorderLayout.SOUTH);
+
+        refreshTable();
+
+        setVisible(true);
+    }
+
+    private void refreshTable() {
+        model.setRowCount(0);
+
+        try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3307/otomasyon","root","root")) {
+            String query = "SELECT * FROM urunler";
+            try (PreparedStatement statement = connection.prepareStatement(query);
+                 ResultSet resultSet = statement.executeQuery()) {
+
+                int columnCount = resultSet.getMetaData().getColumnCount();
+                Vector<String> columns = new Vector<>();
+                for (int i = 1; i <= columnCount; i++) {
+                    columns.add(resultSet.getMetaData().getColumnName(i));
+                }
+                model.setColumnIdentifiers(columns);
+
+                while (resultSet.next()) {
+                    Vector<Object> row = new Vector<>();
+                    for (int i = 1; i <= columnCount; i++) {
+                        row.add(resultSet.getObject(i));
+                    }
+                    model.addRow(row);
+                }
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    private void urunEkle(String urunAdi, String kategoriAdi, float fiyat) {
+        try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3307/otomasyon","root","root")) {
+            String query = "INSERT INTO urunler (adi, kategoriAdi, fiyat) VALUES (?, ?, ?)";
+            try (PreparedStatement statement = connection.prepareStatement(query)) {
+                statement.setString(1, urunAdi);
+                statement.setString(2, kategoriAdi);
+                statement.setFloat(3, fiyat);
+                statement.executeUpdate();
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
     }
 
     private void urunSil(String urunAdi) {
-        // MySQL tablosundan silme işlemleri burada gerçekleştirilecek.
-        // Örneğin: DELETE FROM urunler WHERE urun_adi = 'urunAdi';
+        try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3307/otomasyon","root","root")) {
+            String query = "DELETE FROM urunler WHERE adi = ?";
+            try (PreparedStatement statement = connection.prepareStatement(query)) {
+                statement.setString(1, urunAdi);
+                statement.executeUpdate();
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
     }
 
     private void urunGuncelle(String eskiAd, String yeniAd) {
-        // MySQL tablosunda güncelleme işlemleri burada gerçekleştirilecek.
-        // Örneğin: UPDATE urunler SET urun_adi = 'yeniAd' WHERE urun_adi = 'eskiAd';
+        try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3307/otomasyon","root","root")) {
+            String query = "UPDATE urunler SET adi = ? WHERE adi = ?";
+            try (PreparedStatement statement = connection.prepareStatement(query)) {
+                statement.setString(1, yeniAd);
+                statement.setString(2, eskiAd);
+                statement.executeUpdate();
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
     }
 
     private void baglanVeTabloyuDoldur() {
-        // MySQL bağlantısı ve tablo verilerini almak için burada işlemler yapılacak.
         try {
-            // MySQL bağlantısı
             Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3307/otomasyon","root","root");
             Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery("SELECT urun_adi FROM urunler");
+            ResultSet resultSet = statement.executeQuery("SELECT adi FROM urunler");
 
-            // Tabloyu doldur
             while (resultSet.next()) {
-                String urunAdi = resultSet.getString("urun_adi");
+                String urunAdi = resultSet.getString("adi");
                 urunListModel.addElement(urunAdi);
             }
-
-            // Bağlantıyı kapat
             resultSet.close();
             statement.close();
             connection.close();

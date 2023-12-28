@@ -121,8 +121,8 @@ public class AnaFE extends JFrame{
 						if(useradi.equals(myRs1.getString("adiSoyadi")) && pass.equals(myRs1.getString("sifre"))) {
 							System.out.println("Giriş Başarılı..");
 							 YetkiliGiris yetkiliGiris = new YetkiliGiris();
-						        yetkiliGiris.setVisible(true);
-						        dispose();
+						     yetkiliGiris.setVisible(true);
+						     dispose();
 						}
 					}
 				} catch (SQLException e1) {
