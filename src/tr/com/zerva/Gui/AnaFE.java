@@ -121,6 +121,10 @@ public class AnaFE extends JFrame{
 		                        yetkiliGiris.btnYetkiliIlemleri.setVisible(false);
 		                        yetkiliGiris.btnrnIlemleri.setVisible(false);
 		                    }
+		                    YetkiliGiris yetki = new YetkiliGiris();
+		    	            yetki.setVisible(true);
+		    	            dispose();
+		    	            
 		                    System.out.println("Giriş Başarılı..");
 		                    gecerliKullanici = true;
 		                    break;

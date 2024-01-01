@@ -18,8 +18,8 @@ public class YetkiliGiris extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	public static JButton btnYetkiliIlemleri;
-	public static JButton btnrnIlemleri;
+	public static JButton btnYetkiliIlemleri = new JButton("YETKİ İŞLEMLERİ");
+	public static JButton btnrnIlemleri = new JButton("ÜRÜN İŞLEMLERİ");
 	public static YetkiliGiris yetkiliGirisInstance;
 
 	/**
@@ -67,7 +67,7 @@ public class YetkiliGiris extends JFrame {
 	        }
 	    });
 		
-		JButton btnrnIlemleri = new JButton("ÜRÜN İŞLEMLERİ");
+		//btnrnIlemleri = new JButton("ÜRÜN İŞLEMLERİ");
 		Image img1 = new ImageIcon(YetkiliGiris.class.getResource("/ürün.png")).getImage();
 		Image scaledImg1 = img1.getScaledInstance(50, 50, Image.SCALE_SMOOTH);
 		btnrnIlemleri.setIcon(new ImageIcon(scaledImg1));
@@ -83,7 +83,7 @@ public class YetkiliGiris extends JFrame {
 	        }
 	    });
 		
-		JButton btnYetkiliIlemleri = new JButton("YETKİ İŞLEMLERİ");
+		//btnYetkiliIlemleri = new JButton("YETKİ İŞLEMLERİ");
 		Image img2 = new ImageIcon(YetkiliGiris.class.getResource("/yetkili.png")).getImage();
 		Image scaledImg2 = img2.getScaledInstance(50, 50, Image.SCALE_SMOOTH);
 		btnYetkiliIlemleri.setIcon(new ImageIcon(scaledImg2));
