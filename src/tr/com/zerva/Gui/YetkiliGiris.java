@@ -13,6 +13,7 @@ import java.awt.Image;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Color;
+import java.awt.SystemColor;
 
 public class YetkiliGiris extends JFrame {
 
@@ -46,13 +47,15 @@ public class YetkiliGiris extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 441, 300);
 		contentPane = new JPanel();
-		contentPane.setBackground(new Color(0, 0, 102));
+		contentPane.setBackground(SystemColor.activeCaption);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
 		JButton btnNewButton = new JButton("SATIŞ İŞLEMLERİ");
+		btnNewButton.setBackground(new Color(240, 240, 240));
+		btnNewButton.setForeground(new Color(0, 51, 204));
 		Image img = new ImageIcon(YetkiliGiris.class.getResource("/satis.png")).getImage();
 		Image scaledImg = img.getScaledInstance(50, 50, Image.SCALE_SMOOTH);
 		btnNewButton.setIcon(new ImageIcon(scaledImg));
@@ -61,8 +64,8 @@ public class YetkiliGiris extends JFrame {
 		contentPane.add(btnNewButton);
 		btnNewButton.addActionListener(new ActionListener() {
 	        public void actionPerformed(ActionEvent e) {
-	            SatisIslem yetki = new SatisIslem();
-	            yetki.setVisible(true);
+	            SatisIslem satis = new SatisIslem();
+	            satis.setVisible(true);
 	            dispose();
 	        }
 	    });
@@ -70,6 +73,8 @@ public class YetkiliGiris extends JFrame {
 		//btnrnIlemleri = new JButton("ÜRÜN İŞLEMLERİ");
 		Image img1 = new ImageIcon(YetkiliGiris.class.getResource("/ürün.png")).getImage();
 		Image scaledImg1 = img1.getScaledInstance(50, 50, Image.SCALE_SMOOTH);
+		btnrnIlemleri.setBackground(new Color(240, 240, 240));
+		btnrnIlemleri.setForeground(new Color(0, 51, 204));
 		btnrnIlemleri.setIcon(new ImageIcon(scaledImg1));
 		btnrnIlemleri.setFont(new Font("Yu Gothic", Font.BOLD, 12));
 		btnrnIlemleri.setBounds(216, 10, 196, 113);
@@ -77,8 +82,8 @@ public class YetkiliGiris extends JFrame {
 		
 		btnrnIlemleri.addActionListener(new ActionListener() {
 	        public void actionPerformed(ActionEvent e) {
-	        	UrunIslem yetki = new UrunIslem();
-	            yetki.setVisible(true);
+	        	UrunIslem urun = new UrunIslem();
+	            urun.setVisible(true);
 	            dispose();
 	        }
 	    });
@@ -86,6 +91,8 @@ public class YetkiliGiris extends JFrame {
 		//btnYetkiliIlemleri = new JButton("YETKİ İŞLEMLERİ");
 		Image img2 = new ImageIcon(YetkiliGiris.class.getResource("/yetkili.png")).getImage();
 		Image scaledImg2 = img2.getScaledInstance(50, 50, Image.SCALE_SMOOTH);
+		btnYetkiliIlemleri.setBackground(new Color(240, 240, 240));
+		btnYetkiliIlemleri.setForeground(new Color(0, 51, 204));
 		btnYetkiliIlemleri.setIcon(new ImageIcon(scaledImg2));
 		btnYetkiliIlemleri.setFont(new Font("Yu Gothic", Font.BOLD, 12));
 		btnYetkiliIlemleri.setBounds(10, 140, 196, 113);
@@ -100,6 +107,8 @@ public class YetkiliGiris extends JFrame {
 	    });
 		
 		JButton btnk = new JButton("ÇIKIŞ");
+		btnk.setBackground(new Color(240, 240, 240));
+		btnk.setForeground(new Color(0, 51, 204));
 		Image img3 = new ImageIcon(YetkiliGiris.class.getResource("/cik.png")).getImage();
 		Image scaledImg3 = img3.getScaledInstance(50, 50, Image.SCALE_SMOOTH);
 		btnk.setIcon(new ImageIcon(scaledImg3));

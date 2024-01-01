@@ -21,6 +21,7 @@ import javax.swing.JTextField;
 import java.awt.Font;
 import java.awt.Image;
 import javax.swing.SwingConstants;
+import java.awt.Color;
 
 public class AnaFE extends JFrame{
 
@@ -74,12 +75,13 @@ public class AnaFE extends JFrame{
         back.setIcon(new ImageIcon(img));
 		
 		JPanel panel =new JPanel();
+		panel.setBackground(SystemColor.inactiveCaption);
 		panel.setForeground(SystemColor.desktop);
 		tabbedPane.addTab("Giriş", null, panel, null);
 		panel.setLayout(null);
 		
 		JLabel lblNewLabel = new JLabel("Adı Soyadı");
-		lblNewLabel.setForeground(SystemColor.desktop);
+		lblNewLabel.setForeground(new Color(0, 51, 204));
 		lblNewLabel.setBounds(50, 50, 150, 30);
 		lblNewLabel.setBackground(SystemColor.activeCaptionText);
 		lblNewLabel.setFont(new Font("Yu Gothic", Font.BOLD, 15));
@@ -87,7 +89,7 @@ public class AnaFE extends JFrame{
 		
         JLabel lblNewLabel_1 = new JLabel("Şifre");
         lblNewLabel_1.setBounds(50, 90, 150, 30);
-        lblNewLabel_1.setForeground(SystemColor.desktop);
+        lblNewLabel_1.setForeground(new Color(0, 51, 204));
         lblNewLabel_1.setBackground(SystemColor.activeCaptionText);
         lblNewLabel_1.setFont(new Font("Yu Gothic", Font.BOLD, 15));
         panel.add(lblNewLabel_1);
@@ -103,6 +105,8 @@ public class AnaFE extends JFrame{
 		panel.add(passwordField);
 		
 		JButton btnNewButton = new JButton("Giriş");
+		btnNewButton.setBackground(new Color(240, 240, 240));
+		btnNewButton.setForeground(new Color(0, 51, 204));
 		btnNewButton.setVerticalAlignment(SwingConstants.TOP);
 		btnNewButton.setFont(new Font("Yu Gothic", Font.BOLD, 15));
 		btnNewButton.addActionListener(new ActionListener() {
@@ -140,30 +144,30 @@ public class AnaFE extends JFrame{
 		        }
 		    }
 		});
-		btnNewButton.setBounds(147, 160, 96, 21);
+		btnNewButton.setBounds(147, 151, 96, 30);
 		panel.add(btnNewButton);
                 
                 JLabel lblNewLabel_4 = new JLabel("GİRİŞ İŞLMLERİ");
                 lblNewLabel_4.setHorizontalAlignment(SwingConstants.LEFT);
                 lblNewLabel_4.setVerticalAlignment(SwingConstants.TOP);
-                lblNewLabel_4.setForeground(SystemColor.desktop);
+                lblNewLabel_4.setForeground(new Color(0, 51, 204));
                 lblNewLabel_4.setFont(new Font("Yu Gothic", Font.BOLD, 15));
                 lblNewLabel_4.setBounds(10, 10, 150, 20);
                 panel.add(lblNewLabel_4);
                 
                 JPanel panel_1 = new JPanel();
-                panel_1.setBackground(SystemColor.menu);
+                panel_1.setBackground(SystemColor.inactiveCaption);
                 tabbedPane.addTab("Kayıt", null, panel_1, null);
                 panel_1.setLayout(null);
                 
                 JLabel lblNewLabel_2 = new JLabel("Adı Soyadı");
-                lblNewLabel_2.setForeground(SystemColor.desktop);
+                lblNewLabel_2.setForeground(new Color(0, 51, 204));
                 lblNewLabel_2.setFont(new Font("Yu Gothic", Font.BOLD, 15));
                 lblNewLabel_2.setBounds(50, 50, 150, 30);
                 panel_1.add(lblNewLabel_2);
                 
                 JLabel lblNewLabel_3 = new JLabel("Şifre");
-                lblNewLabel_3.setForeground(SystemColor.desktop);
+                lblNewLabel_3.setForeground(new Color(0, 51, 204));
                 lblNewLabel_3.setFont(new Font("Yu Gothic", Font.BOLD, 15));
                 lblNewLabel_3.setBounds(50, 90, 150, 30);
                 panel_1.add(lblNewLabel_3);
@@ -179,6 +183,10 @@ public class AnaFE extends JFrame{
                 textField_2.setColumns(10);
                 		
                 JButton btnNewButton_1 = new JButton("Kayıt");
+                btnNewButton_1.setForeground(new Color(0, 51, 204));
+                btnNewButton_1.setBackground(new Color(240, 240, 240));
+                btnNewButton_1.setVerticalAlignment(SwingConstants.BOTTOM);
+                btnNewButton_1.setFont(new Font("Yu Gothic", Font.BOLD, 12));
         		btnNewButton_1.addActionListener(new ActionListener() {
         			public void actionPerformed(ActionEvent e) {
         				ResultSet myRs = Bagla.yap();
@@ -194,12 +202,12 @@ public class AnaFE extends JFrame{
         				}
         			}
         		});
-                btnNewButton_1.setBounds(145, 147, 96, 21);
+                btnNewButton_1.setBounds(145, 147, 96, 34);
                 panel_1.add(btnNewButton_1);
                 		
                 JLabel lblNewLabel_5 = new JLabel("KAYIT İŞLEMLERİ");
                 lblNewLabel_5.setHorizontalAlignment(SwingConstants.LEFT);
-                lblNewLabel_5.setForeground(SystemColor.desktop);
+                lblNewLabel_5.setForeground(new Color(0, 51, 204));
                 lblNewLabel_5.setFont(new Font("Yu Gothic", Font.BOLD, 14));
                 lblNewLabel_5.setBounds(10, 10, 150, 20);
                 panel_1.add(lblNewLabel_5);

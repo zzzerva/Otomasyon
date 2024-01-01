@@ -28,7 +28,7 @@ public class SatisIslem extends JFrame {
     private static final String DB_URL = "jdbc:mysql://localhost:3307/otomasyon";
     private static final String USER = "root";
     private static final String PASSWORD = "root";
-    private JPanel contentPane;
+    private JPanel contentPane = new JPanel();
     private int mouseX, mouseY;
     private JTextField AdiField, kategoriAdiField, fiyatField, adetField;
 
@@ -36,6 +36,7 @@ public class SatisIslem extends JFrame {
         super("Satış Uygulaması");
 
         JPanel panel = new JPanel();
+        panel.setBackground(SystemColor.inactiveCaption);
         panel.setForeground(SystemColor.activeCaptionText);
         panel.setLayout(null);
         JPanel panel_1 = new JPanel();
@@ -162,9 +163,10 @@ public class SatisIslem extends JFrame {
         setLocationRelativeTo(null);
     }
 
-    private Object YetkiliGiris() {
-		// TODO Auto-generated method stub
-		return null;
+    private void YetkiliGiris() {
+    	YetkiliGiris yetkiliGiris = new YetkiliGiris();
+	    yetkiliGiris.setVisible(true);
+	    dispose();
 	}
 
 	private void SatisIslem() {
