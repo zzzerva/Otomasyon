@@ -36,6 +36,16 @@ public class Bagla {
 		return myRs;
 		
 	}
+	public static int getYetkiId(String kullaniciAdi) throws SQLException {
+        String query = "SELECT yetkiId FROM accounts WHERE kullaniciAdi = '" + kullaniciAdi + "'";
+        ResultSet resultSet = myState.executeQuery(query);
+
+        if (resultSet.next()) {
+            return resultSet.getInt("yetkiId");
+        } else {
+            return -1; 
+        }
+        }
 	 public static String getJdbcUrl() {
 	        return "jdbc:mysql://localhost:3307/otomasyon";
 	    }
@@ -51,5 +61,4 @@ public class Bagla {
 			// TODO Auto-generated method stub
 			return null;
 		}
-
 }

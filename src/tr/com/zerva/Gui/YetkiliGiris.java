@@ -10,17 +10,17 @@ import javax.swing.JButton;
 import java.awt.Font;
 import java.awt.Image;
 
-import javax.swing.SwingConstants;
-import java.awt.SystemColor;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import javax.swing.JTabbedPane;
 import java.awt.Color;
 
 public class YetkiliGiris extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
+	public static JButton btnYetkiliIlemleri;
+	public static JButton btnrnIlemleri;
+	public static YetkiliGiris yetkiliGirisInstance;
 
 	/**
 	 * Launch the application.
@@ -42,6 +42,7 @@ public class YetkiliGiris extends JFrame {
 	 * Create the frame.
 	 */
 	public YetkiliGiris() {
+		yetkiliGirisInstance = this;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 441, 300);
 		contentPane = new JPanel();
@@ -60,7 +61,7 @@ public class YetkiliGiris extends JFrame {
 		contentPane.add(btnNewButton);
 		btnNewButton.addActionListener(new ActionListener() {
 	        public void actionPerformed(ActionEvent e) {
-	            YetkiIslemi yetki = new YetkiIslemi();
+	            SatisIslem yetki = new SatisIslem();
 	            yetki.setVisible(true);
 	            dispose();
 	        }
@@ -76,7 +77,7 @@ public class YetkiliGiris extends JFrame {
 		
 		btnrnIlemleri.addActionListener(new ActionListener() {
 	        public void actionPerformed(ActionEvent e) {
-	            YetkiIslemi yetki = new YetkiIslemi();
+	        	UrunIslem yetki = new UrunIslem();
 	            yetki.setVisible(true);
 	            dispose();
 	        }
@@ -92,7 +93,7 @@ public class YetkiliGiris extends JFrame {
 		
 		btnYetkiliIlemleri.addActionListener(new ActionListener() {
 	        public void actionPerformed(ActionEvent e) {
-	            YetkiIslemi yetki = new YetkiIslemi();
+	        	edit_member yetki = new edit_member();
 	            yetki.setVisible(true);
 	            dispose();
 	        }
@@ -113,5 +114,13 @@ public class YetkiliGiris extends JFrame {
 	            dispose();
 	        }
 	    });
+	}
+	
+	public static YetkiliGiris getYetkiliGirisInstance() {
+        return yetkiliGirisInstance;
+    }
+	public void gizleButonlar() {
+	    btnYetkiliIlemleri.setVisible(false);
+	    btnrnIlemleri.setVisible(false);
 	}
 }

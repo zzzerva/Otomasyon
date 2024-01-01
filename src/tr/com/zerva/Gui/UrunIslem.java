@@ -43,18 +43,18 @@ public class UrunIslem extends JFrame {
         ekleButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String urunAdi = JOptionPane.showInputDialog(UrunIslem.this, "Ürün Adı:");
+                String adi = JOptionPane.showInputDialog(UrunIslem.this, "Ürün Adı:");
                 String kategoriAdi = JOptionPane.showInputDialog(UrunIslem.this, "Kategori Adı:");
                 String fiyatStr = JOptionPane.showInputDialog(UrunIslem.this, "Fiyat:");
 
-                if (urunAdi != null && !urunAdi.trim().isEmpty() &&
+                if (adi != null && !adi.trim().isEmpty() &&
                         kategoriAdi != null && !kategoriAdi.trim().isEmpty() &&
                         fiyatStr != null && !fiyatStr.trim().isEmpty()) {
                     try {
                         float fiyat = Float.parseFloat(fiyatStr);
 
-                        urunListModel.addElement("Ürün Adı: " + urunAdi + ", Kategori Adı: " + kategoriAdi + ", Fiyat: " + fiyat);
-                        urunEkle(urunAdi, kategoriAdi, fiyat);
+                        urunListModel.addElement("Ürün Adı: " + adi + ", Kategori Adı: " + kategoriAdi + ", Fiyat: " + fiyat);
+                        urunEkle(adi, kategoriAdi, fiyat);
                     } catch (NumberFormatException ex) {
                         JOptionPane.showMessageDialog(UrunIslem.this, "Geçerli bir fiyat giriniz.", "Hata", JOptionPane.ERROR_MESSAGE);
                     }
@@ -66,14 +66,9 @@ public class UrunIslem extends JFrame {
         silButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int selectedIndex = urunList.getSelectedIndex();
-                if (selectedIndex != -1) {
-                    String secilenUrun = urunListModel.getElementAt(selectedIndex);
-                    urunListModel.remove(selectedIndex);
-                    urunSil(secilenUrun);
-                } else {
-                    JOptionPane.showMessageDialog(UrunIslem.this, "Lütfen bir ürün seçin.");
-                }
+            	urun_delete sil = new urun_delete();
+	            sil.setVisible(true);
+	            dispose();
             }
         });
 
@@ -81,17 +76,9 @@ public class UrunIslem extends JFrame {
         duzenleButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int selectedIndex = urunList.getSelectedIndex();
-                if (selectedIndex != -1) {
-                    String secilenUrun = urunListModel.getElementAt(selectedIndex);
-                    String yeniAd = JOptionPane.showInputDialog(UrunIslem.this, "Yeni Ürün Adı:", secilenUrun);
-                    if (yeniAd != null && !yeniAd.trim().isEmpty()) {
-                        urunListModel.setElementAt(yeniAd, selectedIndex);
-                        urunGuncelle(secilenUrun, yeniAd);
-                    }
-                } else {
-                    JOptionPane.showMessageDialog(UrunIslem.this, "Lütfen bir ürün seçin.");
-                }
+            	urun_duzenle duzenle = new urun_duzenle();
+	            duzenle.setVisible(true);
+	            dispose();
             }
         });
 
@@ -100,7 +87,6 @@ public class UrunIslem extends JFrame {
         buttonPanel.add(duzenleButton);
 
         getContentPane().add(buttonPanel, BorderLayout.EAST);
-        baglanVeTabloyuDoldur();
     }
 
     public void UrunListelemeFrame() {
@@ -181,49 +167,6 @@ public class UrunIslem extends JFrame {
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
-        }
-    }
-
-    private void urunSil(String urunAdi) {
-        try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3307/otomasyon","root","root")) {
-            String query = "DELETE FROM urunler WHERE adi = ?";
-            try (PreparedStatement statement = connection.prepareStatement(query)) {
-                statement.setString(1, urunAdi);
-                statement.executeUpdate();
-            }
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
-    }
-
-    private void urunGuncelle(String eskiAd, String yeniAd) {
-        try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3307/otomasyon","root","root")) {
-            String query = "UPDATE urunler SET adi = ? WHERE adi = ?";
-            try (PreparedStatement statement = connection.prepareStatement(query)) {
-                statement.setString(1, yeniAd);
-                statement.setString(2, eskiAd);
-                statement.executeUpdate();
-            }
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
-    }
-
-    private void baglanVeTabloyuDoldur() {
-        try {
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3307/otomasyon","root","root");
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery("SELECT adi FROM urunler");
-
-            while (resultSet.next()) {
-                String urunAdi = resultSet.getString("adi");
-                urunListModel.addElement(urunAdi);
-            }
-            resultSet.close();
-            statement.close();
-            connection.close();
-        } catch (Exception e) {
-            e.printStackTrace();
         }
     }
 }

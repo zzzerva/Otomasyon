@@ -1,7 +1,5 @@
 package tr.com.zerva.Gui;
 
-
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -10,7 +8,6 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.border.EmptyBorder;
 
-import javax.swing.JLayeredPane;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.SystemColor;
@@ -24,7 +21,6 @@ import javax.swing.JTextField;
 import java.awt.Font;
 import java.awt.Image;
 import javax.swing.SwingConstants;
-import java.awt.Color;
 
 public class AnaFE extends JFrame{
 
@@ -34,8 +30,7 @@ public class AnaFE extends JFrame{
 	private JTextField textField_1;
 	private JTextField textField_2;
 	private JPasswordField passwordField;
-	private JPasswordField passwordField_1;
-	
+	YetkiliGiris yetkiliGiris = YetkiliGiris.getYetkiliGirisInstance();
 
 	/**
 	 * Launch the application.
@@ -117,19 +112,29 @@ public class AnaFE extends JFrame{
 				String sql = "SELECT * FROM accounts WHERE adiSoyadi = '"+useradi+"'";  
 				try {
 					ResultSet myRs1 = Bagla.bul(sql);
-					while (myRs1.next()) {
-						if(useradi.equals(myRs1.getString("adiSoyadi")) && pass.equals(myRs1.getString("sifre"))) {
-							System.out.println("Giriş Başarılı..");
-							 YetkiliGiris yetkiliGiris = new YetkiliGiris();
-						     yetkiliGiris.setVisible(true);
-						     dispose();
-						}
-					}
-				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-			}
+					boolean gecerliKullanici = false;
+
+		            while (myRs1.next()) {
+		                if (useradi.equals(myRs1.getString("adiSoyadi")) && pass.equals(myRs1.getString("sifre"))) {
+		                	int yetkiId = myRs1.getInt("yetkiId");
+		                    if (yetkiId == 2) {
+		                        yetkiliGiris.btnYetkiliIlemleri.setVisible(false);
+		                        yetkiliGiris.btnrnIlemleri.setVisible(false);
+		                    }
+		                    System.out.println("Giriş Başarılı..");
+		                    gecerliKullanici = true;
+		                    break;
+		                }
+		            }
+
+		            if (!gecerliKullanici) {
+		                System.out.println("Hatalı kullanıcı adı veya şifre");
+		            }
+
+		        } catch (SQLException e1) {
+		            e1.printStackTrace();
+		        }
+		    }
 		});
 		btnNewButton.setBounds(147, 160, 96, 21);
 		panel.add(btnNewButton);
@@ -195,5 +200,7 @@ public class AnaFE extends JFrame{
                 lblNewLabel_5.setBounds(10, 10, 150, 20);
                 panel_1.add(lblNewLabel_5);
                 
+                
 	}
+
 }
